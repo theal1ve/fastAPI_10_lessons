@@ -6,7 +6,8 @@ from core.models.db_helper import db_helper
 from core.models.base import Base
 from items_views import router_items
 from users.views import router_users
-
+from api_v1 import router as router_v1
+from core.config import settings
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -19,6 +20,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 app.include_router(router_items)
 app.include_router(router_users)
+app.include_router(router_v1, prefix=settings.api_v1_prefix)
 
 @app.get("/")
 def hello_index():
